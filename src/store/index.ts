@@ -2,7 +2,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import watchedMoviesReducer from './watchedMoviesSlice';
 
-export const store = configureStore({
+const store = configureStore({
   reducer: {
     watchedMovies: watchedMoviesReducer,
   },
@@ -10,3 +10,5 @@ export const store = configureStore({
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+
+export default store;

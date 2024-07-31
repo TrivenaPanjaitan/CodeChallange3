@@ -1,34 +1,21 @@
 // src/components/MovieList.tsx
-import { useEffect, useState } from 'react';
-import axiosInstance from '../api/axiosInstance';
+import React from 'react';
+import { WatchedMovie } from '../store/watchedMoviesSlice';
 
-const MovieList = () => {
-  const [movies, setMovies] = useState<any[]>([]);
-  const [query, setQuery] = useState('Batman');
+interface MovieListProps {
+  movies: WatchedMovie[];
+}
 
-  useEffect(() => {
-    const fetchMovies = async () => {
-      try {
-        const response = await axiosInstance.get(`/search/movie?query=${query}`);
-        setMovies(response.data.results);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchMovies();
-  }, [query]);
-
+const MovieList: React.FC<MovieListProps> = ({ movies }) => {
   return (
     <div>
-      <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search movies" />
-      <ul>
-        {movies.map(movie => (
-          <li key={movie.id}>
-            <h3>{movie.title} ({movie.release_date.split('-')[0]})</h3>
-            <button>Add to Watched</button>
-          </li>
-        ))}
-      </ul>
+      {movies.map(movie => (
+        <div key={movie.id}>
+          <img src={movie.thumbnail} alt={movie.title} />
+          <h3>{movie.title}</h3>
+          <p>{movie.year}</p>
+        </div>
+      ))}
     </div>
   );
 };

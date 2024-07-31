@@ -1,5 +1,6 @@
 // src/store/watchedMoviesSlice.ts
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import axios from 'axios';
 
 export interface WatchedMovie {
   id: number;
@@ -17,6 +18,19 @@ const initialState: WatchedMoviesState = {
   movies: [],
   offlineChanges: [],
 };
+
+// Async thunk for fetching movies
+export const fetchMovies = createAsyncThunk(
+  'watchedMovies/fetchMovies',
+  async (query: string) => {
+    const response = await axios.get(`https://api.themoviedb.org/3/search/movie?query=${query}`, {
+      headers: {
+        Authorization: 'Bearer yJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmNjI0NTQ2MGVmOGZhN2NkODczMTkzYjkyNTc1MjUxNSIsIm5iZiI6MTcyMjQ0NjgzNC45MTU4NTMsInN1YiI6IjY2YWE0YmU3ZjNiYzJlNDg3Yjg3ZmZiYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.IgSl8NfOV3HdkmZTVUi23ByldLv67DXypaLJw8x5cKs'
+      }
+    });
+    return response.data.results;
+  }
+);
 
 const watchedMoviesSlice = createSlice({
   name: 'watchedMovies',
@@ -37,6 +51,11 @@ const watchedMoviesSlice = createSlice({
       state.offlineChanges = [];
     }
   },
+  extraReducers: (builder) => {
+    builder.addCase(fetchMovies.fulfilled, (state, action) => {
+      state.movies = action.payload;
+    });
+  }
 });
 
 export const { addWatchedMovie, removeWatchedMovie, setWatchedMovies, clearOfflineChanges } = watchedMoviesSlice.actions;
