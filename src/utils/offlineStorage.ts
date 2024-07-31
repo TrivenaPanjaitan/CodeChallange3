@@ -1,6 +1,7 @@
 // src/utils/offlineStorage.ts
+// src/utils/offlineStorage.ts
 import localforage from 'localforage';
-import { WatchedMovie } from '../store/watchedMoviesSlice';
+import { WatchedMovie } from '../types/WatchedMovie'; // Ensure correct path
 
 const watchedMoviesKey = 'watchedMovies';
 
