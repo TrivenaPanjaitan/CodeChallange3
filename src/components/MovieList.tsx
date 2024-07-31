@@ -1,6 +1,6 @@
 // src/components/MovieList.tsx
 import React from 'react';
-import { WatchedMovie } from '../store/watchedMoviesSlice';
+import { WatchedMovie } from '../types/WatchedMovie';
 
 interface MovieListProps {
   movies: WatchedMovie[];
@@ -8,15 +8,14 @@ interface MovieListProps {
 
 const MovieList: React.FC<MovieListProps> = ({ movies }) => {
   return (
-    <div>
+    <ul>
       {movies.map(movie => (
-        <div key={movie.id}>
-          <img src={movie.thumbnail} alt={movie.title} />
-          <h3>{movie.title}</h3>
-          <p>{movie.year}</p>
-        </div>
+        <li key={movie.id}>
+          <h3>{movie.title} ({movie.release_date.split('-')[0]})</h3>
+          <img src={movie.poster_path} alt={movie.title} />
+        </li>
       ))}
-    </div>
+    </ul>
   );
 };
 

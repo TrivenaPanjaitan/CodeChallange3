@@ -1,23 +1,22 @@
 // src/App.tsx
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import MovieList from './components/MovieList';
 import { AppDispatch, RootState } from './store';
-import { fetchMovies } from './store/watchedMoviesSlice';
+import { fetchMoviesThunk } from './store/watchedMoviesSlice';
 
 const App: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const movies = useSelector((state: RootState) => state.watchedMovies.movies);
 
-  useEffect(() => {
-    dispatch(fetchMovies('Batman'));
+  React.useEffect(() => {
+    dispatch(fetchMoviesThunk('some query'));
   }, [dispatch]);
-
-  const watchedMovies = useSelector((state: RootState) => state.watchedMovies.movies);
 
   return (
     <div>
-      <h1>Movie Database</h1>
-      <MovieList movies={watchedMovies} />
+      <h1>Movie List</h1>
+      <MovieList movies={movies} /> {/* Ensure movies is passed as a prop */}
     </div>
   );
 };

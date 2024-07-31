@@ -1,22 +1,21 @@
 // src/components/WatchedMovies.tsx
-import { useSelector } from 'react-redux';
-import { RootState } from '../store';
+import React from 'react';
+import { WatchedMovie } from '../types/WatchedMovie';
 
-const WatchedMovies = () => {
-  const watchedMovies = useSelector((state: RootState) => state.watchedMovies.movies);
+interface WatchedMoviesProps {
+  watchedMovies: WatchedMovie[];
+}
 
+const WatchedMovies: React.FC<WatchedMoviesProps> = ({ watchedMovies }) => {
   return (
-    <div>
-      <h2>Watched Movies</h2>
-      <ul>
-        {watchedMovies.map(movie => (
-          <li key={movie.id}>
-            <h3>{movie.title} ({movie.year})</h3>
-            <img src={movie.thumbnail} alt={movie.title} />
-          </li>
-        ))}
-      </ul>
-    </div>
+    <ul>
+      {watchedMovies.map(movie => (
+        <li key={movie.id}>
+          <h3>{movie.title} ({movie.release_date.split('-')[0]})</h3>
+          <img src={movie.poster_path} alt={movie.title} />
+        </li>
+      ))}
+    </ul>
   );
 };
 

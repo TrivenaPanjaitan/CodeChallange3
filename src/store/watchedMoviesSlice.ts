@@ -1,7 +1,6 @@
 // src/store/watchedMoviesSlice.ts
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fetchMovies } from '../api/movies';
-import { fetchWatchlistMovies } from '../api/watchlist';
+import { fetchMovies as apiFetchMovies } from '../api/movies';
 import { WatchedMovie } from '../types/WatchedMovie';
 
 interface WatchedMoviesState {
@@ -16,18 +15,11 @@ const initialState: WatchedMoviesState = {
   error: null,
 };
 
+// Ensure only one export of fetchMoviesThunk
 export const fetchMoviesThunk = createAsyncThunk(
   'watchedMovies/fetchMovies',
   async (query: string) => {
-    const movies = await fetchMovies(query);
-    return movies;
-  }
-);
-
-export const fetchWatchlistThunk = createAsyncThunk(
-  'watchedMovies/fetchWatchlist',
-  async (accountId: number) => {
-    const movies = await fetchWatchlistMovies(accountId);
+    const movies = await apiFetchMovies(query);
     return movies;
   }
 );
@@ -48,9 +40,6 @@ const watchedMoviesSlice = createSlice({
       .addCase(fetchMoviesThunk.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message || 'Failed to fetch movies';
-      })
-      .addCase(fetchWatchlistThunk.fulfilled, (state, action) => {
-        state.movies = action.payload as WatchedMovie[];
       });
   },
 });
