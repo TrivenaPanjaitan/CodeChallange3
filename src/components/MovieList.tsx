@@ -1,36 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import { addWatchedMovie } from '../hooks/useOfflineStorage';
-import { fetchMovies } from '../utils/api';
+// src/components/MovieList.tsx
+import { useEffect, useState } from 'react';
+import axiosInstance from '../api/axiosInstance';
 
-const MovieList: React.FC = () => {
+const MovieList = () => {
   const [movies, setMovies] = useState<any[]>([]);
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState('Batman');
 
   useEffect(() => {
-    const getMovies = async () => {
-      const results = await fetchMovies(query);
-      setMovies(results);
+    const fetchMovies = async () => {
+      try {
+        const response = await axiosInstance.get(`/search/movie?query=${query}`);
+        setMovies(response.data.results);
+      } catch (error) {
+        console.error(error);
+      }
     };
-    if (query) getMovies();
+    fetchMovies();
   }, [query]);
-
-  const handleMarkWatched = (movie: any) => {
-    addWatchedMovie(movie);
-  };
 
   return (
     <div>
-      <input
-        type="text"
-        placeholder="Search movies..."
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-      />
+      <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search movies" />
       <ul>
-        {movies.map((movie) => (
+        {movies.map(movie => (
           <li key={movie.id}>
-            <h3>{movie.title}</h3>
-            <button onClick={() => handleMarkWatched(movie)}>Mark as Watched</button>
+            <h3>{movie.title} ({movie.release_date.split('-')[0]})</h3>
+            <button>Add to Watched</button>
           </li>
         ))}
       </ul>
