@@ -1,62 +1,58 @@
 // src/store/watchedMoviesSlice.ts
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios';
-
-export interface WatchedMovie {
-  id: number;
-  title: string;
-  year: string;
-  thumbnail: string;
-}
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { fetchMovies } from '../api/movies';
+import { fetchWatchlistMovies } from '../api/watchlist';
+import { WatchedMovie } from '../types/WatchedMovie';
 
 interface WatchedMoviesState {
   movies: WatchedMovie[];
-  offlineChanges: { id: number; action: 'add' | 'remove' }[];
+  status: 'idle' | 'loading' | 'succeeded' | 'failed';
+  error: string | null;
 }
 
 const initialState: WatchedMoviesState = {
   movies: [],
-  offlineChanges: [],
+  status: 'idle',
+  error: null,
 };
 
-// Async thunk for fetching movies
-export const fetchMovies = createAsyncThunk(
+export const fetchMoviesThunk = createAsyncThunk(
   'watchedMovies/fetchMovies',
   async (query: string) => {
-    const response = await axios.get(`https://api.themoviedb.org/3/search/movie?query=${query}`, {
-      headers: {
-        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmNjI0NTQ2MGVmOGZhN2NkODczMTkzYjkyNTc1MjUxNSIsIm5iZiI6MTcyMjQ0NjgzNC45MTU4NTMsInN1YiI6IjY2YWE0YmU3ZjNiYzJlNDg3Yjg3ZmZiYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.IgSl8NfOV3HdkmZTVUi23ByldLv67DXypaLJw8x5cKs'
-      }
-    });
-    return response.data.results;
+    const movies = await fetchMovies(query);
+    return movies;
+  }
+);
+
+export const fetchWatchlistThunk = createAsyncThunk(
+  'watchedMovies/fetchWatchlist',
+  async (accountId: number) => {
+    const movies = await fetchWatchlistMovies(accountId);
+    return movies;
   }
 );
 
 const watchedMoviesSlice = createSlice({
   name: 'watchedMovies',
   initialState,
-  reducers: {
-    addWatchedMovie: (state, action: PayloadAction<WatchedMovie>) => {
-      state.movies.push(action.payload);
-      state.offlineChanges.push({ id: action.payload.id, action: 'add' });
-    },
-    removeWatchedMovie: (state, action: PayloadAction<number>) => {
-      state.movies = state.movies.filter(movie => movie.id !== action.payload);
-      state.offlineChanges.push({ id: action.payload, action: 'remove' });
-    },
-    setWatchedMovies: (state, action: PayloadAction<WatchedMovie[]>) => {
-      state.movies = action.payload;
-    },
-    clearOfflineChanges: (state) => {
-      state.offlineChanges = [];
-    }
-  },
+  reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchMovies.fulfilled, (state, action) => {
-      state.movies = action.payload;
-    });
-  }
+    builder
+      .addCase(fetchMoviesThunk.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchMoviesThunk.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.movies = action.payload;
+      })
+      .addCase(fetchMoviesThunk.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message || 'Failed to fetch movies';
+      })
+      .addCase(fetchWatchlistThunk.fulfilled, (state, action) => {
+        state.movies = action.payload as WatchedMovie[];
+      });
+  },
 });
 
-export const { addWatchedMovie, removeWatchedMovie, setWatchedMovies, clearOfflineChanges } = watchedMoviesSlice.actions;
 export default watchedMoviesSlice.reducer;
