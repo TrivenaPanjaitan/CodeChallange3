@@ -13,10 +13,10 @@ const App: React.FC = () => (
     <Header />
     <ErrorBoundary>  {/* Wrap Routes with ErrorBoundary */}
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/movie/:movieId" element={<MoviePage />} />
-        <Route path="/watchlist" element={<WatchlistPage />} />
-        <Route path="/rated" element={<RatedMoviesPage />} />
+        <Route path={`${process.env.PUBLIC_URL}/`} element={<HomePage />} />
+        <Route path={`${process.env.PUBLIC_URL}/movie/:movieId`} element={<MoviePage />} />
+        <Route path={`${process.env.PUBLIC_URL}/watchlist`} element={<WatchlistPage />} />
+        <Route path={`${process.env.PUBLIC_URL}/rated`} element={<RatedMoviesPage />} />
       </Routes>
     </ErrorBoundary>
   </div>
