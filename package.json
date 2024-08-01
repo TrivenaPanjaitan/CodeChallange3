@@ -3,9 +3,8 @@
     "version": "1.0.0",
     "main": "index.tsx",
     "scripts": {
-        "start": "webpack serve",
-        "build": "webpack",
-        "predeploy": "npm run build",
+        "build": "NODE_ENV=production webpack",
+        "start": "webpack-dev-server",
         "deploy": "gh-pages -d build"
     },
     "homepage": "https://TrivenaPanjaitan.github.io/CodeChallange3",
