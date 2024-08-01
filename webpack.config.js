@@ -15,7 +15,7 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'build'),
-    publicPath: isProduction ? '/CodeChallange3/' : '/',
+    publicPath: '/',
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.json', '.scss', '.ttf', '.webp', '.png', '.svg'],
