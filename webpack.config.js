@@ -55,7 +55,9 @@ module.exports = {
     open: !isProduction,
   },
   plugins: [
-    new Dotenv(),
+    new Dotenv({
+      path: `./.env.${isProduction ? 'production' : 'development'}`,
+    }),
     new HtmlWebpackPlugin({
       template: './public/index.html',
     }),
