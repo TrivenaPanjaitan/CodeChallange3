@@ -81,11 +81,11 @@ define(['./workbox-68b3524c'], (function (workbox) { 'use strict';
    * See https://goo.gl/S9QRab
    */
   workbox.precacheAndRoute([{
-    "url": "/bundle.js",
+    "url": "/CodeChallange3/bundle.js",
     "revision": "a6120e4497ab185e0abeac6244eb8a66"
   }, {
-    "url": "/index.html",
-    "revision": "e3b0177efe436df3594f6fa6c6e4ca7f"
+    "url": "/CodeChallange3/index.html",
+    "revision": "33b82f66ded851a9b2fffc61c3a6a28d"
   }], {});
 
 }));
