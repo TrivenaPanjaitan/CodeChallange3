@@ -86,5 +86,8 @@ module.exports = {
       skipWaiting: true,
       clientsClaim: true,
     }),
+    new MiniCssExtractPlugin({
+      filename: "styles.css",
+    }),
   ],
 };
