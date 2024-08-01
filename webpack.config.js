@@ -4,19 +4,32 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { GenerateSW } = require('workbox-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const isProduction = process.env.NODE_ENV == 'production';
+const isProduction = process.env.NODE_ENV === 'production';
 
-const stylesHandler = isProduction ? MiniCssExtractPlugin.loader : 'style-loader';
+const stylesHandler = isProduction
+  ? MiniCssExtractPlugin.loader
+  : 'style-loader';
 
 module.exports = {
+  mode: isProduction ? 'production' : 'development',
   entry: './src/index.tsx',
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'build'),
-    publicPath: '/CodeChallange3/', // Ensure this matches your GitHub repo name
+    publicPath: '/CodeChallange3/'
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js', '.json', '.scss', '.ttf', '.webp', '.png', '.svg'],
+    extensions: [
+      '.tsx',
+      '.ts',
+      '.js',
+      '.json',
+      '.scss',
+      '.ttf',
+      '.webp',
+      '.png',
+      '.svg',
+    ],
   },
   module: {
     rules: [
@@ -53,7 +66,11 @@ module.exports = {
       {
         test: /\.scss$/,
         exclude: /\.module\.scss$/,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        use: [
+          'style-loader',
+          'css-loader',
+          'sass-loader',
+        ],
         include: path.resolve(__dirname, 'src'),
       },
     ],
@@ -63,16 +80,16 @@ module.exports = {
     static: path.join(__dirname, 'build'),
     compress: true,
     port: 3000,
-    historyApiFallback: true,
+    historyApiFallback: true
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './public/index.html',
+      template: './public/index.html'
     }),
-    new BundleAnalyzerPlugin(),
+    // Conditionally add the BundleAnalyzerPlugin only in development
+    ...(isProduction ? [] : [new BundleAnalyzerPlugin()]),
     new GenerateSW({
       // options
     }),
-    new MiniCssExtractPlugin(), // Ensure this is included
-  ],
+  ]
 };
