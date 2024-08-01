@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { getBaseUrl } from '../../helpers/getBaseUrl';
+import { getPublicUrl } from '../../helpers/getPublicUrl';
 import styles from './index.module.scss';
 
 const Header: React.FC = () => {
-  const baseUrl = getBaseUrl();
+  const baseUrl = getPublicUrl();
 
   return (
     <header className={styles['header']}>
