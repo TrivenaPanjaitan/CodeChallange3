@@ -2,10 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
-import setFavicon from './setFavicon';
-
-const faviconPath = process.env.NODE_ENV === 'production' ? '/CodeChallange3/favicon.ico' : '/favicon.ico';
-setFavicon(faviconPath);
 
 const basename = process.env.REACT_APP_BASE_URL || '/';
 
