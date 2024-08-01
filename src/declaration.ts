@@ -1,0 +1,19 @@
+declare module '*.module.css';
+declare module '*.module.scss';
+declare module '*.jpg';
+declare module '*.png';
+declare module '*.webp';
+declare module '*.scss';
+declare module 'components/*';
+declare module 'components/Header/*';
+declare module 'components/MovieDetails/*';
+declare module 'components/MovieList/*';
+declare module 'components/Watchlist/*';
+declare module 'pages/*';
+declare module 'pages/HomePage/*';
+declare module 'pages/MoviePage/*';
+declare module 'pages/RatedMoviePage/*';
+declare module 'pages/WatchlistPage/*';
+declare module 'styles/*';
+declare module 'types/*';
+
