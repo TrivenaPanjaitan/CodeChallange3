@@ -13,7 +13,7 @@ root.render(
   </BrowserRouter>
 );
 
-if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
+if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     const swUrl = `${basename}/service-worker.js`; 
     navigator.serviceWorker
