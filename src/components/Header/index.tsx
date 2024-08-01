@@ -11,13 +11,13 @@ const Header: React.FC = () => {
       <nav>
         <ul>
           <li>
-            <Link to={`${process.env.PUBLIC_URL}/`}>Home</Link>
+            <Link to={`/${process.env.PUBLIC_URL}/`}>Home</Link>
           </li>
           <li>
-            <Link to={`${process.env.PUBLIC_URL}/watchlist`}>Watchlist</Link>
+            <Link to={`/${process.env.PUBLIC_URL}/watchlist`}>Watchlist</Link>
           </li>
           <li>
-            <Link to={`${process.env.PUBLIC_URL}/rated`}>Rated Movies</Link>
+            <Link to={`/${process.env.PUBLIC_URL}/rated`}>Rated Movies</Link>
           </li>
         </ul>
       </nav>
