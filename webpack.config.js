@@ -2,12 +2,14 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const { GenerateSW } = require("workbox-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-
 const webpack = require("webpack");
 const path = require("path");
 const dotenv = require("dotenv");
+
+// Load environment variables
+dotenv.config();
+
 const isProduction = process.env.NODE_ENV === "production";
-const env = dotenv.config().parsed;
 
 const stylesHandler = isProduction
   ? MiniCssExtractPlugin.loader
@@ -22,24 +24,14 @@ module.exports = {
     publicPath: isProduction ? "/CodeChallange3/" : "/",
   },
   resolve: {
-    extensions: [
-      ".tsx",
-      ".ts",
-      ".js",
-      ".json",
-      ".scss",
-      ".ttf",
-      ".webp",
-      ".png",
-      ".svg",
-    ],
+    extensions: [".tsx", ".ts", ".js", ".json", ".scss", ".ttf", ".webp", ".png", ".svg"],
   },
   module: {
     rules: [
       {
         test: /\.(ts|tsx)$/i,
         loader: "ts-loader",
-        exclude: ["/node_modules/"],
+        exclude: /node_modules/,
         include: path.resolve(__dirname, "src"),
       },
       {
@@ -68,26 +60,30 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      "process.env.PUBLIC_URL": JSON.stringify(env.PUBLIC_URL) || "/",
+      'process.env': JSON.stringify(process.env),
     }),
     new HtmlWebpackPlugin({
       template: "./public/index.html",
     }),
-    // Conditionally add the BundleAnalyzerPlugin only in development
     ...(isProduction ? [] : [new BundleAnalyzerPlugin()]),
-    new GenerateSW({
-      exclude: [/\.map$/, /asset-manifest\.json$/],
-      runtimeCaching: [
-        {
-          urlPattern: new RegExp("^https://.*"),
-          handler: "NetworkFirst",
-        },
-      ],
-      skipWaiting: true,
-      clientsClaim: true,
-    }),
     new MiniCssExtractPlugin({
       filename: "styles.css",
     }),
+    ...(isProduction
+      ? [
+          new GenerateSW({
+            exclude: [/\.map$/, /asset-manifest\.json$/],
+            runtimeCaching: [
+              {
+                urlPattern: new RegExp("^https://.*"),
+                handler: "NetworkFirst",
+              },
+            ],
+            skipWaiting: true,
+            clientsClaim: true,
+            dontCacheBustUrlsMatching: /\.[0-9a-f]{8}\./,
+          }),
+        ]
+      : []),
   ],
 };
