@@ -1,12 +1,29 @@
 // src/index.tsx
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
-import store from './store';
 
-ReactDOM.render(
-  <Provider store={store}>
+const rootElement = document.getElementById('root')!;
+const root = createRoot(rootElement);
+
+root.render(
+  <Router>
     <App />
-  </Provider>,
-  document.getElementById('root')
+  </Router>
 );
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    const swUrl = '/service-worker.js'; // Ensure this path is correct
+    navigator.serviceWorker
+      .register(swUrl)
+      .then((registration) => {
+        console.log('Service Worker registered:', registration);
+      })
+      .catch((error) => {
+        console.error('Error registering Service Worker:', error);
+      });
+  });
+}
+
