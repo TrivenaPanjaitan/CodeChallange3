@@ -3,16 +3,9 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { GenerateSW } = require('workbox-webpack-plugin');
-const dotenv = require('dotenv');
+const Dotenv = require('dotenv-webpack');
 
-const env = dotenv.config().parsed || {};
 const isProduction = process.env.NODE_ENV === 'production';
-
-// Ensure that `envKeys` contains the correct environment variables
-const envKeys = Object.keys(env).reduce((prev, key) => {
-  prev[`process.env.${key}`] = JSON.stringify(env[key]);
-  return prev;
-}, {});
 
 const stylesHandler = isProduction ? MiniCssExtractPlugin.loader : 'style-loader';
 
@@ -62,7 +55,7 @@ module.exports = {
     open: !isProduction,
   },
   plugins: [
-    new webpack.DefinePlugin(envKeys),
+    new Dotenv(),
     new HtmlWebpackPlugin({
       template: './public/index.html',
     }),
