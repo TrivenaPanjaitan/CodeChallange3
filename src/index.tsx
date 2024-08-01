@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import { getBaseUrl } from './helpers/getBaseUrl';
 
-const basename = getBaseUrl() || '/';
+const basename = getBaseUrl();
 
 const root = ReactDOM.createRoot(document.getElementById('root')!);
 root.render(
