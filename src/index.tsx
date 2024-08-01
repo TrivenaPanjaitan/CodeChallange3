@@ -1,19 +1,23 @@
-// src/index.tsx
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client'; // Import from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 
-ReactDOM.render(
-  <BrowserRouter basename="/CodeChallange3">
+// Determine base path based on environment
+const basename = process.env.PUBLIC_URL || '/';
+
+// Create a root and render the application
+const root = ReactDOM.createRoot(document.getElementById('root')!);
+root.render(
+  <BrowserRouter basename={basename}>
     <App />
-  </BrowserRouter>,
-  document.getElementById('root')
+  </BrowserRouter>
 );
 
-if ('serviceWorker' in navigator) {
+// Register service worker in production only
+if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
   window.addEventListener('load', () => {
-    const swUrl = '/service-worker.js'; // Ensure this path is correct
+    const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`; 
     navigator.serviceWorker
       .register(swUrl)
       .then((registration) => {
@@ -24,4 +28,3 @@ if ('serviceWorker' in navigator) {
       });
   });
 }
-
