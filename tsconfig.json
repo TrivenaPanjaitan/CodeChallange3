@@ -17,7 +17,7 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["typings", "src/**/*", "src/**/*.ts", "src/**/*.tsx", "src/**/*.module.scss"],
+  "include": ["typings", "src/**/*"],
   "exclude": ["node_modules"],
   "files": ["src/index.tsx"]
 }
