@@ -1,24 +1,23 @@
 {
-    "compilerOptions": {
-      "target": "es6",
-      "module": "commonjs",
-      "strict": true,
-      "jsx": "react",
-      "esModuleInterop": true,
-      "skipLibCheck": true,
-      "forceConsistentCasingInFileNames": true,
-      "moduleResolution": "node",
-      "outDir": "./build",
-      "baseUrl": "./src",
-      "allowSyntheticDefaultImports": true,
-      "noImplicitAny": true,
-      "allowJs": true,
-      "paths": {
-        "@/*": ["src/*"]
-       },
-    },
-    "include": ["typings", "src/**/*", "src/**/*.ts", "src/**/*.tsx", "src/**/*.module.scss"],
-    "exclude": ["node_modules"],
-    "files": ["src/index.tsx"],
-  }
-  
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "strict": true,
+    "jsx": "react",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "outDir": "./build",
+    "baseUrl": "./src",
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
+    "allowJs": true,
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "include": ["typings", "src/**/*", "src/**/*.ts", "src/**/*.tsx", "src/**/*.module.scss"],
+  "exclude": ["node_modules"],
+  "files": ["src/index.tsx"]
+}
