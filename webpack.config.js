@@ -5,14 +5,11 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { GenerateSW } = require('workbox-webpack-plugin');
 const dotenv = require('dotenv');
 
-// Load environment variables
-dotenv.config();
-
+const env = dotenv.config().parsed
 const isProduction = process.env.NODE_ENV === 'production';
 
-// Generate environment variables for DefinePlugin
 const envKeys = Object.keys(process.env).reduce((prev, key) => {
-  prev[`process.env.${key}`] = JSON.stringify(process.env[key]);
+  prev[`process.env.${env}`] = JSON.stringify(process.env[key]);
   return prev;
 }, {});
 
