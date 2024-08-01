@@ -74,7 +74,7 @@ module.exports = {
             ],
             skipWaiting: true,
             clientsClaim: true,
-            dontCacheBustUrlsMatching: /\.[0-9a-f]{8}\./,
+            dontCacheBustURLsMatching: /\.[0-9a-f]{8}\./,
           }),
         ]
       : []),
