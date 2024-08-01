@@ -1,12 +1,11 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client'; // Import from 'react-dom/client'
+import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
+import { getBaseUrl } from './helpers/getBaseUrl';
 
-// Determine base path based on environment
-const basename = process.env.PUBLIC_URL || '/';
+const basename = getBaseUrl() || '/';
 
-// Create a root and render the application
 const root = ReactDOM.createRoot(document.getElementById('root')!);
 root.render(
   <BrowserRouter basename={basename}>
@@ -14,7 +13,6 @@ root.render(
   </BrowserRouter>
 );
 
-// Register service worker in production only
 if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
   window.addEventListener('load', () => {
     const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`; 
